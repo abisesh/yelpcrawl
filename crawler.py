@@ -20,8 +20,7 @@ import random
 
 get_yelp_page = \
     lambda zipcode, page_num: \
-        'http://www.yelp.com/search?find_desc=&find_loc={0}' \
-        '&ns=1#cflt=restaurants&start={1}'.format(zipcode, page_num)
+		'https://www.yelp.com/search?find_desc=Dentists&find_loc={0}&ns=1&start={1}'.format(zipcode, page_num)
 
 ZIP_URL = "zipcodes.txt"
 FIELD_DELIM = u'###'
@@ -47,10 +46,10 @@ def crawl_page(zipcode, page_num, verbose=False):
         print str(e)
         return []
 
-    restaurants = soup.findAll('div', attrs={'class':re.compile
+    dentists = soup.findAll('div', attrs={'class':re.compile
             (r'^search-result natural-search-result')})
     try:
-        assert(len(restaurants) == 10)
+        assert(len(dentists) == 10)
     except AssertionError, e:
         # We make a dangerous assumption that yelp has 10 listing per page,
         # however this can also be a formatting issue, so watch out
@@ -59,7 +58,7 @@ def crawl_page(zipcode, page_num, verbose=False):
         return [], False
 
     extracted = [] # a list of tuples
-    for r in restaurants:
+    for r in dentists:
         img = ''
         yelpPage = ''
         title = ''
